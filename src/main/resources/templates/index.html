@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title th:text="${pageTitle}">Help Desk</title>
+    <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+            rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <div class="container">
+        <a class="navbar-brand fw-bold" th:href="@{/}" th:text="${brand}">Help Desk</a>
+        <div class="navbar-nav">
+            <a class="nav-link active" th:href="@{/}" th:text="${navHome}">Home</a>
+            <a class="nav-link" th:href="@{/about}" th:text="${navAbout}">About</a>
+            <a class="nav-link" th:href="@{/contacts}" th:text="${navContacts}">Contacts</a>
+            <a class="nav-link" th:href="@{/faq}" th:text="${navFaq}">FAQ</a>
+        </div>
+    </div>
+</nav>
+
+<main class="container py-5">
+    <section class="hero-card p-5 rounded-4 border shadow-sm">
+        <h1 class="display-5 fw-bold" th:text="${welcomeMessage}">
+            Welcome
+        </h1>
+        <p class="lead mb-4" th:text="${leadText}">
+            Help Desk learning project.
+        </p>
+        <a class="btn btn-primary btn-lg" th:href="@{/contacts}" th:text="${contactButtonText}">
+            Contact support
+        </a>
+    </section>
+
+    <section class="row g-4 mt-4">
+        <div class="col-md-3" th:each="feature : ${features}">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body">
+                    <h2 class="h5" th:text="${feature}">Feature</h2>
+                    <p class="card-text text-muted" th:text="${featureDescription}">
+                        Feature description
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+
+<footer class="footer py-4 border-top">
+    <div class="container text-center text-muted" th:text="${footerText}">
+        Help Desk learning project
+    </div>
+</footer>
+<script
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js">
+</script>
+</body>
+</html>

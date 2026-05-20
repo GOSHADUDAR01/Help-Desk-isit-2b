@@ -1,0 +1,26 @@
+# Java / Maven
+target/
+*.class
+*.log
+
+# Gradle, if the project is ever converted
+.gradle/
+build/
+
+# IntelliJ IDEA
+.idea/
+*.iml
+out/
+
+# VS Code
+.vscode/
+
+# Local settings and secrets
+.env
+.env.*
+application-local.properties
+application-*.local
+
+# Operating systems
+.DS_Store
+Thumbs.db

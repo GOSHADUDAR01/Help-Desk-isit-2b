@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title th:text="${pageTitle}">Contacts</title>
+    <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+            rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <div class="container">
+        <a class="navbar-brand fw-bold" th:href="@{/}" th:text="${brand}">Help Desk</a>
+        <div class="navbar-nav">
+            <a class="nav-link" th:href="@{/}" th:text="${navHome}">Home</a>
+            <a class="nav-link" th:href="@{/about}" th:text="${navAbout}">About</a>
+            <a class="nav-link active" th:href="@{/contacts}" th:text="${navContacts}">Contacts</a>
+            <a class="nav-link" th:href="@{/faq}" th:text="${navFaq}">FAQ</a>
+        </div>
+    </div>
+</nav>
+
+<main class="container py-5">
+    <h1 class="fw-bold mb-4" th:text="${pageTitle}">
+        Contacts
+    </h1>
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <table class="table table-striped align-middle mb-0">
+                <tbody>
+                <tr>
+                    <th scope="row">Email</th>
+                    <td th:text="${supportEmail}">support@example.com</td>
+                </tr>
+                <tr>
+                    <th scope="row" th:text="${phoneLabel}">Phone</th>
+                    <td th:text="${phone}">+7 (000) 000-00-00</td>
+                </tr>
+                <tr>
+                    <th scope="row" th:text="${workTimeLabel}">Work time</th>
+                    <td th:text="${workTime}">Mon-Fri, 09:00-18:00</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <section class="row g-4 mt-2">
+        <div class="col-lg-6">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body">
+                    <h2 class="h5" th:text="${supportChannelsTitle}">Support channels</h2>
+                    <ul class="mb-0">
+                        <li th:each="channel : ${supportChannels}" th:text="${channel}">
+                            Channel
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body">
+                    <h2 class="h5" th:text="${requestChecklistTitle}">Request checklist</h2>
+                    <ul class="mb-0">
+                        <li th:each="item : ${requestChecklist}" th:text="${item}">
+                            Checklist item
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="alert alert-info mt-4" th:text="${contactsAlertText}">
+        Ticket form will be added later.
+    </div>
+    <a class="btn btn-outline-primary" th:href="@{/}" th:text="${backHomeText}">
+        Back to home
+    </a>
+</main>
+<script
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js">
+</script>
+</body>
+</html>
