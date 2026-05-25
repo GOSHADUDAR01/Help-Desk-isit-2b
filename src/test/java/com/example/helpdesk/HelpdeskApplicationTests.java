@@ -54,6 +54,40 @@ class HelpdeskApplicationTests {
     }
 
     @Test
+    void ticketsPageRendersSeededTickets() throws Exception {
+        mockMvc.perform(get("/tickets"))
+                .andExpect(status().isOk())
+                .andExpect(content().string(containsString(
+                        "\u0421\u043f\u0438\u0441\u043e\u043a \u0437\u0430\u044f\u0432\u043e\u043a")))
+                .andExpect(content().string(containsString(
+                        "\u041d\u0435 \u0440\u0430\u0431\u043e\u0442\u0430\u0435\u0442 \u043f\u0440\u0438\u043d\u0442\u0435\u0440")))
+                .andExpect(content().string(containsString(
+                        "\u041f\u0440\u043e\u0431\u043b\u0435\u043c\u0430 \u0441 VPN")))
+                .andExpect(content().string(containsString("6 \u0437\u0430\u044f\u0432\u043e\u043a")));
+    }
+
+    @Test
+    void newTicketsPageFiltersByStatus() throws Exception {
+        mockMvc.perform(get("/tickets/new"))
+                .andExpect(status().isOk())
+                .andExpect(content().string(containsString("NEW")))
+                .andExpect(content().string(containsString(
+                        "\u0424\u0438\u043b\u044c\u0442\u0440 \u043f\u043e \u0441\u0442\u0430\u0442\u0443\u0441\u0443 NEW")))
+                .andExpect(content().string(containsString("3 \u0437\u0430\u044f\u0432\u043e\u043a")));
+    }
+
+    @Test
+    void customerTicketsPageFiltersByNamePart() throws Exception {
+        mockMvc.perform(get("/tickets/customer"))
+                .andExpect(status().isOk())
+                .andExpect(content().string(containsString(
+                        "\u0418\u0432\u0430\u043d \u0418\u0432\u0430\u043d\u043e\u0432")))
+                .andExpect(content().string(containsString(
+                        "\u0418\u0432\u0430\u043d \u0421\u043e\u043a\u043e\u043b\u043e\u0432")))
+                .andExpect(content().string(containsString("2 \u0437\u0430\u044f\u0432\u043e\u043a")));
+    }
+
+    @Test
     void stylesheetIsServed() throws Exception {
         mockMvc.perform(get("/css/style.css"))
                 .andExpect(status().isOk())
