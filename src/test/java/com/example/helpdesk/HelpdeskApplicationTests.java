@@ -1,22 +1,32 @@
 package com.example.helpdesk;
 
+import com.example.helpdesk.model.Ticket;
+import com.example.helpdesk.model.TicketStatus;
+import com.example.helpdesk.repository.TicketRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.transaction.annotation.Transactional;
 
 import static org.hamcrest.Matchers.containsString;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrlPattern;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
 @AutoConfigureMockMvc
+@Transactional
 class HelpdeskApplicationTests {
 
     @Autowired
     private MockMvc mockMvc;
+
+    @Autowired
+    private TicketRepository ticketRepository;
 
     @Test
     void homePageRenders() throws Exception {
@@ -67,13 +77,57 @@ class HelpdeskApplicationTests {
     }
 
     @Test
-    void newTicketsPageFiltersByStatus() throws Exception {
+    void newTicketFormRenders() throws Exception {
         mockMvc.perform(get("/tickets/new"))
+                .andExpect(status().isOk())
+                .andExpect(content().string(containsString(
+                        "\u0421\u043e\u0437\u0434\u0430\u043d\u0438\u0435 \u0437\u0430\u044f\u0432\u043a\u0438")))
+                .andExpect(content().string(containsString("name=\"customerName\"")))
+                .andExpect(content().string(containsString("name=\"title\"")))
+                .andExpect(content().string(containsString("name=\"description\"")));
+    }
+
+    @Test
+    void newTicketsPageFiltersByStatus() throws Exception {
+        mockMvc.perform(get("/tickets/status/new"))
                 .andExpect(status().isOk())
                 .andExpect(content().string(containsString("NEW")))
                 .andExpect(content().string(containsString(
                         "\u0424\u0438\u043b\u044c\u0442\u0440 \u043f\u043e \u0441\u0442\u0430\u0442\u0443\u0441\u0443 NEW")))
                 .andExpect(content().string(containsString("3 \u0437\u0430\u044f\u0432\u043e\u043a")));
+    }
+
+    @Test
+    void blankTicketFormShowsValidationErrors() throws Exception {
+        mockMvc.perform(post("/tickets")
+                        .param("customerName", "")
+                        .param("title", "")
+                        .param("description", ""))
+                .andExpect(status().isOk())
+                .andExpect(content().string(containsString(
+                        "\u0412\u0432\u0435\u0434\u0438\u0442\u0435 \u0438\u043c\u044f")))
+                .andExpect(content().string(containsString(
+                        "\u0412\u0432\u0435\u0434\u0438\u0442\u0435 \u0442\u0435\u043c\u0443 \u0437\u0430\u044f\u0432\u043a\u0438")))
+                .andExpect(content().string(containsString(
+                        "\u041e\u043f\u0438\u0448\u0438\u0442\u0435 \u043f\u0440\u043e\u0431\u043b\u0435\u043c\u0443")));
+    }
+
+    @Test
+    void validTicketFormCreatesTicketAndRedirectsToSuccess() throws Exception {
+        mockMvc.perform(post("/tickets")
+                        .param("customerName", "\u041f\u0430\u0432\u0435\u043b \u041a\u0438\u0440\u0438\u043b\u043b\u043e\u0432")
+                        .param("title", "\u041d\u0443\u0436\u0435\u043d \u0434\u043e\u0441\u0442\u0443\u043f \u043a Wi-Fi")
+                        .param("description", "\u041d\u0435 \u043f\u043e\u0434\u043a\u043b\u044e\u0447\u0430\u0435\u0442\u0441\u044f \u043d\u043e\u0443\u0442\u0431\u0443\u043a \u0432 \u043f\u0435\u0440\u0435\u0433\u043e\u0432\u043e\u0440\u043d\u043e\u0439."))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrlPattern("/tickets/*/success"));
+
+        Ticket savedTicket = ticketRepository.findAll().stream()
+                .filter(ticket -> "\u041d\u0443\u0436\u0435\u043d \u0434\u043e\u0441\u0442\u0443\u043f \u043a Wi-Fi".equals(ticket.getTitle()))
+                .findFirst()
+                .orElseThrow();
+
+        org.assertj.core.api.Assertions.assertThat(savedTicket.getStatus()).isEqualTo(TicketStatus.NEW);
+        org.assertj.core.api.Assertions.assertThat(savedTicket.getCreatedAt()).isNotNull();
     }
 
     @Test

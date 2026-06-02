@@ -16,6 +16,7 @@
         <div class="navbar-nav">
             <a class="nav-link" th:href="@{/}">Главная</a>
             <a class="nav-link active" th:href="@{/tickets}">Заявки</a>
+            <a class="nav-link" th:href="@{/tickets/new}">Создать заявку</a>
             <a class="nav-link" th:href="@{/about}">О нас</a>
             <a class="nav-link" th:href="@{/contacts}">Контакты</a>
             <a class="nav-link" th:href="@{/faq}">FAQ</a>
@@ -36,8 +37,9 @@
     </div>
 
     <div class="d-flex flex-wrap gap-2 mb-4">
-        <a class="btn btn-primary btn-sm" th:href="@{/tickets}">Все заявки</a>
-        <a class="btn btn-outline-primary btn-sm" th:href="@{/tickets/new}">Только NEW</a>
+        <a class="btn btn-primary btn-sm" th:href="@{/tickets/new}">Создать заявку</a>
+        <a class="btn btn-outline-primary btn-sm" th:href="@{/tickets}">Все заявки</a>
+        <a class="btn btn-outline-primary btn-sm" th:href="@{/tickets/status/new}">Только NEW</a>
         <a class="btn btn-outline-primary btn-sm" th:href="@{/tickets/customer}">Клиент Иван</a>
         <a class="btn btn-outline-secondary btn-sm" th:href="@{/h2-console}">H2 Console</a>
     </div>
@@ -70,6 +72,11 @@
                         </td>
                         <td th:text="${#temporals.format(ticket.createdAt, 'dd.MM.yyyy HH:mm')}">
                             14.05.2026 09:00
+                        </td>
+                    </tr>
+                    <tr th:if="${#lists.isEmpty(tickets)}">
+                        <td colspan="5" class="text-center text-muted py-4">
+                            Пока нет ни одной заявки
                         </td>
                     </tr>
                     </tbody>
