@@ -31,9 +31,14 @@
         <p class="lead mb-4" th:text="${leadText}">
             Help Desk learning project.
         </p>
-        <a class="btn btn-primary btn-lg" th:href="@{/contacts}" th:text="${contactButtonText}">
-            Contact support
-        </a>
+        <div class="d-flex flex-wrap gap-2">
+            <a class="btn btn-primary btn-lg" th:href="@{/tickets/new}">
+                Создать заявку
+            </a>
+            <a class="btn btn-outline-primary btn-lg" th:href="@{/contacts}" th:text="${contactButtonText}">
+                Contact support
+            </a>
+        </div>
     </section>
 
     <section class="row g-4 mt-4">

@@ -75,8 +75,9 @@
         </div>
     </section>
 
-    <div class="alert alert-info mt-4" th:text="${contactsAlertText}">
-        Ticket form will be added later.
+    <div class="alert alert-info mt-4">
+        Форма создания обращения уже доступна:
+        <a th:href="@{/tickets/new}" class="alert-link">создать заявку</a>.
     </div>
     <a class="btn btn-outline-primary" th:href="@{/}" th:text="${backHomeText}">
         Back to home
