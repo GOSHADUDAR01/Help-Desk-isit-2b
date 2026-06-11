@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Нет доступа | Help Desk</title>
+    <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+            rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body class="bg-light">
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <div class="container">
+        <a class="navbar-brand fw-bold" th:href="@{/}">Help Desk</a>
+        <div class="navbar-nav ms-auto">
+            <a class="nav-link" th:href="@{/}">Главная</a>
+            <a class="nav-link" th:href="@{/tickets/new}">Создать заявку</a>
+            <a class="nav-link" th:href="@{/login}">Войти</a>
+        </div>
+    </div>
+</nav>
+
+<main class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-7">
+            <div class="alert alert-warning shadow-sm">
+                <h1 class="alert-heading">Нет доступа</h1>
+                <p>
+                    У вас нет прав для просмотра администраторской зоны.
+                    Войдите под учетной записью администратора.
+                </p>
+                <div class="d-flex flex-wrap gap-2">
+                    <a class="btn btn-primary" th:href="@{/login}">Войти как администратор</a>
+                    <a class="btn btn-outline-primary" th:href="@{/}">На главную</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<script
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js">
+</script>
+</body>
+</html>

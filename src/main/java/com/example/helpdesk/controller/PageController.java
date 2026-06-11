@@ -100,4 +100,9 @@ public class PageController {
         ));
         return "faq";
     }
+
+    @GetMapping("/access-denied")
+    public String accessDenied() {
+        return "access-denied";
+    }
 }

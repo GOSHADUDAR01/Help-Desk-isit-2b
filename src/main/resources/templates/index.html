@@ -15,7 +15,8 @@
         <a class="navbar-brand fw-bold" th:href="@{/}" th:text="${brand}">Help Desk</a>
         <div class="navbar-nav">
             <a class="nav-link active" th:href="@{/}" th:text="${navHome}">Home</a>
-            <a class="nav-link" th:href="@{/tickets}">Заявки</a>
+            <a class="nav-link" th:href="@{/tickets/new}">Создать заявку</a>
+            <a class="nav-link" th:href="@{/admin/tickets}">Админ-панель</a>
             <a class="nav-link" th:href="@{/about}" th:text="${navAbout}">About</a>
             <a class="nav-link" th:href="@{/contacts}" th:text="${navContacts}">Contacts</a>
             <a class="nav-link" th:href="@{/faq}" th:text="${navFaq}">FAQ</a>
@@ -37,6 +38,9 @@
             </a>
             <a class="btn btn-outline-primary btn-lg" th:href="@{/contacts}" th:text="${contactButtonText}">
                 Contact support
+            </a>
+            <a class="btn btn-outline-secondary btn-lg" th:href="@{/login}">
+                Войти как администратор
             </a>
         </div>
     </section>

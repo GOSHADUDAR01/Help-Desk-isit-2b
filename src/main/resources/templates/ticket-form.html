@@ -15,8 +15,8 @@
         <a class="navbar-brand fw-bold" th:href="@{/}">Help Desk</a>
         <div class="navbar-nav">
             <a class="nav-link" th:href="@{/}">Главная</a>
-            <a class="nav-link" th:href="@{/tickets}">Заявки</a>
             <a class="nav-link active" th:href="@{/tickets/new}">Создать заявку</a>
+            <a class="nav-link" th:href="@{/admin/tickets}">Админ-панель</a>
             <a class="nav-link" th:href="@{/contacts}">Контакты</a>
         </div>
     </div>
@@ -33,6 +33,10 @@
                     </p>
 
                     <form th:action="@{/tickets}" th:object="${ticket}" method="post" novalidate>
+                        <input type="hidden"
+                               th:name="${_csrf.parameterName}"
+                               th:value="${_csrf.token}">
+
                         <div class="mb-3">
                             <label for="customerName" class="form-label">Ваше имя</label>
                             <input id="customerName" type="text" class="form-control"
@@ -70,8 +74,8 @@
                             <button type="submit" class="btn btn-primary">
                                 Отправить заявку
                             </button>
-                            <a th:href="@{/tickets}" class="btn btn-outline-secondary">
-                                Назад к списку
+                            <a th:href="@{/admin/tickets}" class="btn btn-outline-secondary">
+                                Админ-панель
                             </a>
                         </div>
                     </form>
