@@ -1,6 +1,5 @@
 package com.example.helpdesk.config;
 
-import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -18,8 +17,7 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
-                        .requestMatchers(PathRequest.toH2Console()).permitAll()
+                        .requestMatchers("/css/**", "/js/**", "/images/**", "/webjars/**").permitAll()
                         .requestMatchers(HttpMethod.GET,
                                 "/", "/about", "/contacts", "/faq", "/login", "/access-denied",
                                 "/tickets/new", "/tickets/*/success"
@@ -27,12 +25,6 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/tickets").permitAll()
                         .requestMatchers("/admin/**").hasRole("ADMIN")
                         .anyRequest().authenticated()
-                )
-                .csrf(csrf -> csrf
-                        .ignoringRequestMatchers(PathRequest.toH2Console())
-                )
-                .headers(headers -> headers
-                        .frameOptions(frame -> frame.sameOrigin())
                 )
                 .formLogin(form -> form
                         .loginPage("/login")
